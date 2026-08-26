@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiki — The Final Chapter</title>
+<style>
+:root{--bg:#050509;--panel:rgba(255,255,255,.055);--line:rgba(255,255,255,.12);--text:#f7f4ef;--muted:#aaa6a0;--accent:#d8b27c;--gold:#f1d7aa}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:-2}.grain{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+section{min-height:100vh;padding:100px 7vw;display:grid;place-items:center;position:relative}section.hero{text-align:center}
+.eyebrow{letter-spacing:.35em;text-transform:uppercase;font-size:.7rem;color:var(--accent);margin-bottom:22px}
+h1{font-size:clamp(4rem,14vw,10rem);line-height:.8;margin:0;font-weight:850;letter-spacing:-.075em}h2{font-size:clamp(2.4rem,6vw,5.5rem);line-height:.92;margin:0 0 25px;letter-spacing:-.055em}
+p{font-size:clamp(1rem,1.8vw,1.2rem);line-height:1.8;color:var(--muted);max-width:720px}.hero p{margin:32px auto}
+.gold{color:var(--gold)}.reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1)}.reveal.show{opacity:1;transform:none}
+.scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.25em;color:#777}.scroll:after{content:"";display:block;width:1px;height:55px;background:linear-gradient(var(--accent),transparent);margin:12px auto}
+.card{width:min(900px,100%);padding:clamp(28px,5vw,65px);border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));backdrop-filter:blur(18px);border-radius:28px;box-shadow:0 30px 100px #0008}
+.letter{font-family:Georgia,serif;font-size:clamp(1.15rem,2.1vw,1.45rem);line-height:2;color:#ddd}.drop{font-size:4rem;float:left;line-height:.8;margin:8px 10px 0 0;color:var(--accent)}
+.bigline{font-size:clamp(2.3rem,6vw,6rem);font-weight:850;letter-spacing:-.06em;line-height:.95;max-width:1050px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:min(1000px,100%)}.memory{min-height:220px;padding:25px;border:1px solid var(--line);border-radius:22px;background:var(--panel);display:flex;flex-direction:column;justify-content:end}.memory span{font-size:.65rem;letter-spacing:.2em;color:var(--accent)}.memory h3{font-size:1.45rem;margin:8px 0}.memory p{font-size:.92rem;margin:0}
+.timeline{width:min(820px,100%);position:relative}.timeline:before{content:"";position:absolute;left:15px;top:0;bottom:0;width:1px;background:var(--line)}.event{position:relative;padding:0 0 45px 58px}.event:before{content:"";position:absolute;left:9px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--accent);box-shadow:0 0 20px #d8b27c66}.event span{font-size:.65rem;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}.event h3{font-size:1.5rem;margin:8px 0}.event p{font-size:1rem;margin:0}
+.photo{height:330px;border:1px solid var(--line);border-radius:25px;overflow:hidden;background:linear-gradient(145deg,#111118,#08080d);position:relative;display:grid;place-items:center;text-align:center}.photo img{width:100%;height:100%;object-fit:cover}.photo .placeholder{color:#777;padding:25px}.photo b{color:var(--gold);display:block;margin-bottom:10px}
+.counter{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:35px}.unit{min-width:85px;padding:18px 12px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}.unit strong{display:block;font-size:2rem;color:var(--gold)}.unit small{font-size:.6rem;letter-spacing:.16em;color:#777;text-transform:uppercase}
+button{border:1px solid #d8b27c66;background:#d8b27c12;color:var(--gold);border-radius:999px;padding:14px 22px;cursor:pointer;letter-spacing:.12em;text-transform:uppercase;font-size:.7rem}.final{text-align:center;background:radial-gradient(circle at 50% 45%,#d8b27c18,transparent 43%)}.final h2{font-size:clamp(4rem,13vw,11rem)}footer{padding:35px;text-align:center;color:#555;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase}
+@media(max-width:700px){section{padding:80px 6vw}.grid{grid-template-columns:1fr}.photo{height:280px}}
 
+.success-card-section{padding-top:130px;padding-bottom:130px}
+.success-card{width:min(1050px,100%);padding:clamp(25px,5vw,65px);border:1px solid rgba(216,178,124,.28);border-radius:32px;background:linear-gradient(145deg,rgba(245,235,218,.09),rgba(255,255,255,.025));box-shadow:0 40px 120px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.success-card:before{content:"";position:absolute;inset:10px;border:1px solid rgba(255,255,255,.045);border-radius:25px;pointer-events:none}
+.success-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;position:relative;z-index:1}
+.success-card-head h2{font-size:clamp(2.4rem,6vw,5rem)}
+.card-mark{width:58px;height:58px;border:1px solid rgba(216,178,124,.45);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:1.7rem}
+.photo-collage{height:430px;position:relative;margin:45px 0 65px}
+.photo-frame{position:absolute;background:#eee;padding:10px 10px 34px;box-shadow:0 25px 55px #0009;width:33%;height:330px;transition:.5s}
+.photo-frame:hover{transform:translateY(-12px) rotate(0deg) scale(1.03);z-index:5}
+.photo-a{left:3%;top:25px;transform:rotate(-6deg)}.photo-b{left:34%;top:0;transform:rotate(3deg);z-index:2}.photo-c{right:3%;top:35px;transform:rotate(7deg)}
+.photo-placeholder{height:100%;background:linear-gradient(135deg,#181820,#30303a);display:grid;place-items:center;color:#aaa;font-size:.7rem;letter-spacing:.2em}
+.success-note{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:55px 0}
+.success-note h3,.poem h3{font-family:Georgia,serif;font-size:clamp(2rem,4vw,3.5rem);margin:0 0 25px;color:#f4eee4}
+.success-note p{max-width:780px}.note-final{color:var(--gold)!important;font-family:Georgia,serif;font-style:italic}
+.poem{text-align:center;padding:65px 20px 45px}.poem-lines{font-family:Georgia,serif;color:#d7d0c6;font-size:clamp(1rem,2vw,1.3rem);line-height:2.05}.poem-lines em{color:var(--gold)}
+.signature{margin-top:30px;color:#777;font-family:Georgia,serif;font-style:italic}
+.countdown-box{text-align:center;margin-top:40px;padding:45px 20px;border:1px solid rgba(216,178,124,.18);border-radius:25px;background:rgba(0,0,0,.18)}
+.countdown-box h3{font-size:clamp(1.8rem,4vw,3rem);margin:0;color:#eee}
+.countdown{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:30px 0 15px}.countdown div{min-width:100px;padding:18px 12px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035)}
+.countdown strong{display:block;font-size:clamp(2rem,4vw,3rem);color:var(--gold);font-variant-numeric:tabular-nums}.countdown span{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#777}.countdown-caption{font-size:.85rem;margin:15px auto 0}
+@media(max-width:700px){.photo-collage{height:340px}.photo-frame{width:42%;height:245px;padding:7px 7px 25px}.photo-a{left:0}.photo-b{left:29%}.photo-c{right:0}.success-card{border-radius:25px}.countdown div{min-width:75px}}
+
+</style>
+</head>
+<body>
+<div class="grain"></div><canvas id="stars"></canvas>
+
+
+<section class="success-card-section">
+  <div class="success-card reveal">
+    <div class="success-card-head">
+      <div>
+        <div class="eyebrow">For Kiki</div>
+        <h2>The part of the story<br><span class="gold">worth keeping.</span></h2>
+      </div>
+      <div class="card-mark">K</div>
+    </div>
+
+    <div class="photo-collage">
+      <div class="photo-frame photo-a">
+        <div class="photo-placeholder">PHOTO 01</div>
+      </div>
+      <div class="photo-frame photo-b">
+        <div class="photo-placeholder">PHOTO 02</div>
+      </div>
+      <div class="photo-frame photo-c">
+        <div class="photo-placeholder">PHOTO 03</div>
+      </div>
+    </div>
+
+    <div class="success-note">
+      <div class="eyebrow">A success note</div>
+      <h3>Look at you. You made it here.</h3>
+      <p>
+        Kiki, I hope when you look back at this chapter, you don't only remember
+        the pressure. I hope you remember the strength it took to keep showing up.
+        Every early morning, every difficult page, every moment you chose to try
+        again — it all counts.
+      </p>
+      <p>
+        Whatever number eventually sits on that results slip, never let it make
+        you forget the person who earned the right to see the next chapter.
+        You worked for this. You fought for this. And now you get to walk forward
+        knowing that you didn't give up.
+      </p>
+      <p class="note-final">I'm proud of you. Now go make the next chapter yours.</p>
+    </div>
+
+    <div class="poem">
+      <div class="eyebrow">For the girl turning the page</div>
+      <h3>When The Last Page Falls</h3>
+      <div class="poem-lines">
+        You carried tomorrow in the palms of your hands,<br>
+        through pages and pressure and days you couldn't understand.<br>
+        You kept walking when the road felt long,<br>
+        kept finding a reason to quietly be strong.<br><br>
+
+        And one day the final question will fade,<br>
+        all those little sacrifices finally made.<br>
+        The books will close, the silence will stay,<br>
+        and you'll realize — you made it this far anyway.<br><br>
+
+        So when the last page falls from your hands,<br>
+        don't look back and measure yourself by demands.<br>
+        Look at the girl who refused to disappear,<br>
+        and tell her softly: <em>you made it here.</em><br><br>
+
+        The chapter is ending, but you aren't done.<br>
+        This isn't the finish — it's only the first run.<br>
+        There's a whole wide world waiting beyond,<br>
+        and I hope you walk into it knowing you're strong.
+      </div>
+      <div class="signature">— from someone who believes in you</div>
+    </div>
+
+    <div class="countdown-box">
+      <div class="eyebrow">Counting down to</div>
+      <h3>20 November 2026</h3>
+      <div class="countdown">
+        <div><strong id="cdDays">00</strong><span>Days</span></div>
+        <div><strong id="cdHours">00</strong><span>Hours</span></div>
+        <div><strong id="cdMinutes">00</strong><span>Minutes</span></div>
+        <div><strong id="cdSeconds">00</strong><span>Seconds</span></div>
+      </div>
+      <p class="countdown-caption">Until the day the next chapter gets its first answer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="hero">
+<div>
+<div class="eyebrow reveal">For Kiki</div>
+<h1 class="reveal">THE<br><span class="gold">FINAL</span><br>CHAPTER.</h1>
+<p class="reveal">You made it this far. Now let's make sure you remember what that means.</p>
+</div><div class="scroll">begin</div>
+</section>
+
+<section>
+<div class="card reveal">
+<div class="eyebrow">Before you begin</div><h2>This is more than a good luck message.</h2>
+<div class="letter"><span class="drop">K</span>iki, there were days that felt long, pages that felt impossible and moments when you probably wondered how you were going to make it through all of this.
+<br><br>And somehow, here you are.
+<br><br>These exams are important. But they are not big enough to define the person you are becoming. They are one chapter — not the whole story.</div>
+</div>
+</section>
+
+<section>
+<div><div class="eyebrow reveal">Your journey</div><h2 class="reveal">Look how far you've come.</h2>
+<div class="timeline">
+<div class="event reveal"><span>Chapter I</span><h3>The beginning.</h3><p>A dream existed before the finish line did.</p></div>
+<div class="event reveal"><span>Chapter II</span><h3>The pressure.</h3><p>There were difficult days, expectations and moments when stopping looked easier.</p></div>
+<div class="event reveal"><span>Chapter III</span><h3>The final stretch.</h3><p>The finish line is close because you kept moving.</p></div>
+<div class="event reveal"><span>Chapter IV</span><h3>The next page.</h3><p>What comes next belongs to you. This is the doorway, not the ending.</p></div>
+</div></div>
+</section>
+
+<section>
+<div><div class="eyebrow reveal">Remember this</div><div class="bigline reveal">You don't need to feel ready.<br><span class="gold">You just need to keep going.</span></div></div>
+</section>
+
+<section>
+<div style="width:min(1000px,100%)"><div class="eyebrow reveal">For the hard days</div><h2 class="reveal">When everything feels heavy.</h2>
+<div class="grid">
+<div class="memory reveal"><span>01</span><h3>Breathe.</h3><p>You are not behind. Take the next breath, then the next step.</p></div>
+<div class="memory reveal"><span>02</span><h3>One question.</h3><p>Don't fight the entire paper. Find the question in front of you.</p></div>
+<div class="memory reveal"><span>03</span><h3>Remember yourself.</h3><p>A grade can describe an exam. It cannot describe you.</p></div>
+</div></div>
+</section>
+
+<section>
+<div style="width:min(1000px,100%)"><div class="eyebrow reveal">The memories</div><h2 class="reveal">Little pieces of your story.</h2><p class="reveal">We'll replace these with your actual photos.</p>
+<div class="grid">
+<div class="photo reveal"><div class="placeholder"><b>PHOTO ONE</b>A favorite picture of Kiki.</div></div>
+<div class="photo reveal"><div class="placeholder"><b>PHOTO TWO</b>A memory worth keeping.</div></div>
+<div class="photo reveal"><div class="placeholder"><b>PHOTO THREE</b>One more for the story.</div></div>
+</div></div>
+</section>
+
+<section>
+<div class="card reveal" style="text-align:center"><div class="eyebrow">The countdown</div><h2>Until the next chapter.</h2><p style="margin:0 auto">We'll set this to the exact milestone you choose.</p>
+<div class="counter"><div class="unit"><strong id="days">00</strong><small>Days</small></div><div class="unit"><strong id="hours">00</strong><small>Hours</small></div><div class="unit"><strong id="mins">00</strong><small>Minutes</small></div><div class="unit"><strong id="secs">00</strong><small>Seconds</small></div></div></div>
+</section>
+
+<section>
+<div class="full"><div class="eyebrow reveal">And after the last paper...</div><div class="bigline reveal">The world gets<br><span class="gold">bigger.</span></div><p class="reveal" style="margin:35px auto">New places. New people. New mistakes. New wins. New versions of you that you haven't even met yet.</p></div>
+</section>
+
+<section class="final">
+<div><div class="eyebrow reveal">One final thing</div><h2 class="reveal">GO.<br><span class="gold">GET IT.</span></h2>
+<p class="reveal" style="margin:30px auto">Walk into every paper like you belong there. Because you do.</p>
+<button class="reveal" onclick="document.getElementById('secret').style.display='block';this.style.display='none'">Open the last message</button>
+<div id="secret" class="letter" style="display:none;max-width:650px;margin:35px auto">Whatever happens, I'm proud of you for making it to this point.<br><br>Finish the chapter.<br>Then turn the page.<br><br><span class="gold">— always in your corner.</span></div>
+</div>
+</section>
+<footer>made for one person. meant to be remembered.</footer>
+
+<script>
+const canvas=document.getElementById("stars"),ctx=canvas.getContext("2d");let w,h,stars=[];
+function resize(){w=canvas.width=innerWidth*devicePixelRatio;h=canvas.height=innerHeight*devicePixelRatio;canvas.style.width=innerWidth+"px";canvas.style.height=innerHeight+"px";stars=Array.from({length:Math.min(220,Math.floor(innerWidth/5))},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5*devicePixelRatio,a:Math.random(),s:Math.random()*.35+.05}))}
+function draw(){ctx.clearRect(0,0,w,h);for(const s of stars){s.a+=s.s*.01;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,235,200,${.15+.2*Math.sin(s.a)})`;ctx.fill();s.y-=s.s*devicePixelRatio;if(s.y<0)s.y=h}requestAnimationFrame(draw)}
+addEventListener("resize",resize);resize();draw();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show")}),{threshold:.12});document.querySelectorAll(".reveal").forEach(e=>obs.observe(e));
+const target=new Date("2026-11-20T00:00:00+03:00").getTime();
+function countdown(){let x=Math.max(0,target-Date.now());let d=Math.floor(x/86400000);x%=86400000;let h=Math.floor(x/3600000);x%=3600000;let m=Math.floor(x/60000);x%=60000;let s=Math.floor(x/1000);
+document.getElementById("cdDays").textContent=String(d).padStart(2,"0");
+document.getElementById("cdHours").textContent=String(h).padStart(2,"0");
+document.getElementById("cdMinutes").textContent=String(m).padStart(2,"0");
+document.getElementById("cdSeconds").textContent=String(s).padStart(2,"0")}countdown();setInterval(countdown,1000);
+</script>
+</body></html>
